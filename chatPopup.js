@@ -146,7 +146,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         let questions = request?.questions || [];
         questions.forEach((q, idx)=>{
             let buttonElm = $(`<button style="display: flex" 
-                class="rounded-lg bg-slate-200 p-2 mt-2 hover:bg-blue-600 hover:text-slate-200 dark:bg-slate-800 dark:hover:bg-blue-600 dark:hover:text-slate-50">${q}</button>`);
+                class="text-left rounded-lg bg-slate-200 p-2 mt-2 hover:bg-blue-600 hover:text-slate-200 dark:bg-slate-800 dark:hover:bg-blue-600 dark:hover:text-slate-50">${q}</button>`);
             buttonElm.click(()=>{
                 chrome.runtime.sendMessage({ action: "sendMessage", tabId, message: buttonElm.text() });
             });
