@@ -1,6 +1,8 @@
 ## Yet Another AI Assistant For Chromium Extension
 // popup method
 
+![image](https://github.com/user-attachments/assets/d456789d-ae18-455a-b207-3a6666889c70)
+
 ## Introduction
 This browser extension provides an AI-powered chat interface that allows users to interact with a conversational AI model. The extension enables users to ask questions, provide context, and receive responses from the AI model.
 
