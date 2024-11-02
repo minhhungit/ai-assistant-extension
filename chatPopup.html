@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AI Chatbot</title>
+    <link rel="stylesheet" href="./scripts/highlightjs.default.min.css">
+    <script src="./scripts/tailwind.3.4.5.js"></script>
+
+    <!-- <link rel="stylesheet" href="./scripts/quill.snow.css">
+    <link rel="stylesheet" href="./scripts/quill.bubble.css">
+    <script src="./scripts/quill.js"></script> -->
+
+    <!-- <script src="./scripts/marked.esm.js"></script> -->
+    
+    <style>
+      @font-face {
+        font-family: 'JetBrains Mono';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url('fonts/JetBrainsMono-Regular.woff2') format('woff2');
+      }
+
+      body {
+        font-family: 'JetBrains Mono', monospace;
+        margin: 0;
+        padding: 10px;
+      }
+      .jin-message-content{
+        overflow-x: auto;
+      }
+      .jin-message-content p {
+        padding-bottom: 10px;
+      }
+
+      .jin-message-content pre {
+        margin: 10px 0 20px 0;
+      }
+    </style>
+    <!-- <style>
+      @font-face {
+        font-family: 'JetBrains Mono';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url('fonts/JetBrainsMono-Regular.woff2') format('woff2');
+      }
+
+      body {
+        font-family: 'JetBrains Mono', monospace;
+        margin: 0;
+        padding: 5px;
+      }
+
+      table {
+        border-collapse: collapse;
+        padding: 4px;
+        width: 100%;
+        table-layout: fixed;
+      }
+      table td, table th {
+        border: 1px solid #d2d2d2;
+        padding: 4px;
+      }
+      
+      table td p, table th p {
+        padding: 0;
+        margin: 0;
+      }
+      
+      pre{
+        padding: 10px;
+      }
+      
+      pre, code{
+        background: #4b4b4b;
+        overflow-x: auto;
+        color: #e7e7e7;
+      }
+
+      #chat-container {
+        display: flex;
+        flex-direction: column;
+        height: 430px;
+        overflow-y: hidden;
+        padding: 0;
+        height: 98vh;
+      }
+
+      #chat-log {
+        flex-grow: 1;
+        padding: 10px;
+        height: 100%;
+        overflow-y: auto;
+      }
+
+      #input-container {
+        border-top: 1px solid #ccc;
+      }
+
+      #message-input {
+        width: calc(100% - 20px);
+        padding: 9px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+      }
+
+      #send-button {
+        background-color: #4CAF50;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+      }
+
+      #send-button:hover {
+        background-color: #3e8e41;
+      }
+
+      .chat-message{
+        width: 80%;
+        padding: 10px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 14px;
+        line-height: 28px;
+      }
+      .assistant-message{
+        width: 90%;
+        float: left;
+        text-align: left;
+        border-left: solid 2px #9dc742;
+      }
+
+      .user-message{
+        width: 90%;
+        float: right;
+        text-align: right;
+        font-weight: bold;
+        color: #333;
+        border-right: solid 2px #57c7a7;
+      }
+    </style> -->
+  </head>
+  <body>
+    <!-- https://github.com/LangbaseInc/langui/tree/main -->
+    <!-- Prompt Messages Container - Modify the height according to your need -->
+<div class="flex h-[97vh] w-full flex-col">
+  <!-- Prompt Messages -->
+  <div id="chat-messages"
+    class="flex-1 overflow-y-auto rounded-xl bg-slate-200 p-4 text-sm leading-6 text-slate-900 dark:bg-slate-800 dark:text-slate-300 sm:text-base sm:leading-7"
+  >
+  </div>
+  
+  <!-- Prompt suggestions -->
+  <div id="prompt-suggestions"
+    class="mt-4"
+  >
+    <!-- <button
+      class="rounded-lg bg-slate-200 p-2 hover:bg-blue-600 hover:text-slate-200 dark:bg-slate-800 dark:hover:bg-blue-600 dark:hover:text-slate-50"
+    >
+      Regenerate response
+    </button>
+    <button
+      class="rounded-lg bg-slate-200 p-2 hover:bg-blue-600 hover:text-slate-200 dark:bg-slate-800 dark:hover:bg-blue-600 dark:hover:text-slate-50"
+    >
+      Use prompt suggestions
+    </button>     -->
+  </div>
+  <!-- Prompt message input -->
+  <form id="chat-form" class="mt-2">
+    <label for="chat-input" class="sr-only">Enter your prompt</label>
+    <div class="relative">
+      <!-- <button
+        type="button"
+        class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500 hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-600"
+      >
+        <svg
+          aria-hidden="true"
+          class="h-5 w-5"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+          stroke-width="2"
+          stroke="currentColor"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+          <path
+            d="M9 2m0 3a3 3 0 0 1 3 -3h0a3 3 0 0 1 3 3v5a3 3 0 0 1 -3 3h0a3 3 0 0 1 -3 -3z"
+          ></path>
+          <path d="M5 10a7 7 0 0 0 14 0"></path>
+          <path d="M8 21l8 0"></path>
+          <path d="M12 17l0 4"></path>
+        </svg>
+        <span class="sr-only">Use voice input</span>
+      </button> -->
+      <textarea
+        id="chat-input"
+        class="block w-full resize-none rounded-xl border-none bg-slate-200 p-4 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-slate-800 dark:text-slate-200 dark:placeholder-slate-400 dark:focus:ring-blue-500 sm:text-base"
+        placeholder="Enter your prompt"
+        rows="3"
+        required
+      ></textarea>
+      <button
+        type="submit"
+        class="absolute bottom-2 right-2.5 rounded-lg bg-blue-700 px-4 py-2 text-sm font-medium text-slate-200 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 sm:text-base"
+        style="width: 90px; height: 90px;"
+      >
+        Send <span class="sr-only">Send message</span>
+      </button>
+    </div>
+  </form>
+</div>
+
+    <!-- <div id="chat-container">
+      <div id="chat-log"></div>
+      <div id="input-container">
+        <textarea id="message-input" rows="4" placeholder="Type a message..."></textarea>
+      </div>
+    </div> -->
+    <script type="module" src="/scripts/jquery-3.7.1.min.js"></script>
+    <script src="./scripts/highlight.min.js"></script>
+    <script type="module" src="chatPopup.js"></script>    
+  </body>
+</html>

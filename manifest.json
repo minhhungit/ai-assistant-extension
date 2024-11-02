@@ -1,0 +1,28 @@
+{
+    "manifest_version": 3,
+    "name": "OpenAI Chatbot",
+    "version": "1.0",
+    "description": "A Chrome extension that uses the OpenAI Chat Completions API to create a chatbot",
+    "permissions": ["activeTab", "contextMenus", "storage"],
+    "content_scripts": [
+      {
+        "matches": ["<all_urls>"],
+        "js": ["./scripts/marked.min.js",  "contentScript.js"]
+      }
+    ],
+    "background": {
+      "service_worker": "backgroundScript.js"
+    },
+    "action": {
+      "default_popup": "options.html"
+    },
+    "options_ui": {
+      "page": "options.html",
+      "open_in_tab": false
+    },
+	"icons": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  }

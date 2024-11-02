@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AI Assistant</title>
+    <style>
+      @font-face {
+        font-family: 'JetBrains Mono';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url('fonts/JetBrainsMono-Regular.woff2') format('woff2');
+      }
+
+      body {
+        width: 700px;
+        height: 500px;
+        font-family: 'JetBrains Mono', monospace;
+      }
+
+      table {
+        border-collapse: collapse;
+        padding: 4px;
+        width: 100%;
+        table-layout: fixed;
+      }
+      table td, table th {
+        border: 1px solid #d2d2d2;
+        padding: 4px;
+      }
+      
+      table td p, table th p {
+        padding: 0;
+        margin: 0;
+      }
+      
+      pre{
+        padding: 10px;
+      }
+      
+      pre, code{
+        background: #4b4b4b;
+        overflow-x: auto;
+        color: #e7e7e7;
+      }
+
+      #chat-container {
+        display: flex;
+        flex-direction: column;
+        height: 430px;
+        overflow-y: visible;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      #chat-log {
+        flex-grow: 1;
+        padding: 10px;
+        height: 100%;
+        overflow-y: auto;
+      }
+
+      #input-container {
+        border-top: 1px solid #ccc;
+      }
+
+      #message-input {
+        width: calc(100% - 20px);
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        margin: 10px 0;
+      }
+
+      #send-button {
+        background-color: #4CAF50;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+      }
+
+      #send-button:hover {
+        background-color: #3e8e41;
+      }
+
+      .chat-message{
+        width: 80%;
+        padding: 10px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 14px;
+        line-height: 28px;
+      }
+      .assistant-message{
+        width: 90%;
+        float: left;
+        text-align: left;
+        border-left: solid 2px #9dc742;
+      }
+
+      .user-message{
+        width: 90%;
+        float: right;
+        text-align: right;
+        font-weight: bold;
+        color: #333;
+        border-right: solid 2px #57c7a7;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>AI Assistant</h1>
+    <div id="chat-container">
+      <div id="chat-log"></div>
+      <div id="input-container">
+        <textarea id="message-input" rows="4" placeholder="Type a message..."></textarea>
+      </div>
+    </div>
+    <script type="module" src="popup.js"></script>    
+  </body>
+</html>
