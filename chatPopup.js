@@ -83,6 +83,14 @@ function waitForElement(selector, callback, interval = 100) {
     }, interval);
 }
 
+function encodeHtml(input) {
+    return input.replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
+
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === 'display-loading-status'){
         waitForElement('#chat-messages', function() {
@@ -129,12 +137,13 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
         let userMsgElement = createUserMessageElement(request.msgId);
 
-        marked.setOptions({
-            breaks: true // Enable GFM line breaks
-        });
+        // marked.setOptions({
+        //     breaks: true // Enable GFM line breaks
+        // });
 
-        const htmlContent = marked.parse(request.message);
-        userMsgElement.find(".jin-message-content").html(htmlContent);
+        //console.log(request.message);
+        //const htmlContent = encodeHtml(marked.parse(request.message));
+        userMsgElement.find(".jin-message-content").html(encodeHtml(request.message));
         
         chatMessagesContainer.appendChild(userMsgElement[0]);
         userMsgElement[0].scrollIntoView({ behavior: 'smooth', block: 'end' });
@@ -146,7 +155,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         let questions = request?.questions || [];
         questions.forEach((q, idx)=>{
             let buttonElm = $(`<button style="display: flex" 
-                class="text-left rounded-lg bg-slate-200 p-2 mt-2 hover:bg-blue-600 hover:text-slate-200 dark:bg-slate-800 dark:hover:bg-blue-600 dark:hover:text-slate-50">${q}</button>`);
+                class="text-left rounded-lg bg-slate-200 p-2 mt-2 hover:bg-blue-600 hover:text-slate-200 dark:bg-slate-800 dark:hover:bg-blue-600 dark:hover:text-slate-50">${encodeHtml(q)}</button>`);
             buttonElm.click(()=>{
                 chrome.runtime.sendMessage({ action: "sendMessage", tabId, message: buttonElm.text() });
             });
@@ -176,7 +185,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         });
 
         const htmlContent = marked.parse(request.message);
-        assistantMsgElement.find(".jin-message-content").html(htmlContent);
+        assistantMsgElement.find(".jin-message-content").html(htmlContent); // .replace(/\n/g, "<br>")
 
         
         chatMessagesContainer.appendChild(assistantMsgElement[0]);

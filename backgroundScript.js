@@ -333,7 +333,7 @@ function generateSuggestQuestions(tabId, nbrOfQuestions){
         Authorization: `Bearer ${apiKey}`,
       };
   
-      var messages =[{content: `Based on the conversation between the user and the AI Assistant below, as user's role, please suggest 2 short valuable questions to AI Assistant ${nbrOfQuestions} to continue the conversation. 
+      var messages =[{content: `Based on the conversation between the user and the AI Assistant below, suggest 2 short valuable, clearly questions to ask AI Assistant (as a friend) ${nbrOfQuestions} to continue the conversation. 
         Respond to me in the following JSON format: {"questions": ["question 1", "question 2"]}. Here is the conversation:\n${JSON.stringify(chatLog)}`, role: "user"}];
     
       const data = {
@@ -450,7 +450,7 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 
     let selectionText = response?.selectedContent || ( info.selectionText || "");
 
-    // console.log(selectionText);
+    console.log(selectionText);
 
     chrome.windows.getAll({populate: true}, function(windows) {
       chrome.tabs.query({}, function(tabs){

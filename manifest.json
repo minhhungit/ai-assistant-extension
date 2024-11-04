@@ -7,7 +7,7 @@
     "content_scripts": [
       {
         "matches": ["<all_urls>"],
-        "js": ["./scripts/marked.min.js",  "contentScript.js"]
+        "js": ["./scripts/marked.min.js",  "./scripts/turndown.js", "contentScript.js"]
       }
     ],
     "background": {

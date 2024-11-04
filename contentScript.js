@@ -1,3 +1,4 @@
+
 // chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 //     if (request.action === 'simple-chat'){
 //         chrome.windows.create({
@@ -15,8 +16,15 @@ function getSelectedContent() {
         const range = selection.getRangeAt(0);
         const clonedContent = range.cloneContents();
         
-        const allContent = [];
-        
+        // const tempDiv = document.createElement("div");
+        // tempDiv.appendChild(clonedContent);
+
+        // const markdownContent = (new TurndownService()).turndown(tempDiv.innerHTML);
+
+        // const allContent = [];
+        // allContent.push({type: 'text', content: markdownContent});
+        // return allContent;
+
         // Get text nodes, image, and video elements from the cloned content
         const walker = document.createTreeWalker(clonedContent, NodeFilter.SHOW_ALL, null, false);
         
